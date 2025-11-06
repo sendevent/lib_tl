@@ -1522,9 +1522,9 @@ enum {\n\
 ' + factories + '\n\
 ' + ('} // namespace ' + globalNamespace + '\n' if globalNamespace != '' else '')
 
-  # --- AyuGram hook
-  header = header.replace('''	[[nodiscard]] bool is_noforwards() const;''', '''	[[nodiscard]] bool is_noforwards() const;\n	[[nodiscard]] bool is_ayuNoforwards() const;''')
-  header = header.replace('''	[[nodiscard]] bool is_restricted() const;''', '''	[[nodiscard]] bool is_restricted() const;\n	[[nodiscard]] bool is_ayuRestricted() const;''')
+  # --- TeleRynda hook
+  header = header.replace('''	[[nodiscard]] bool is_noforwards() const;''', '''	[[nodiscard]] bool is_noforwards() const;\n	[[nodiscard]] bool is_ryndaNoforwards() const;''')
+  header = header.replace('''	[[nodiscard]] bool is_restricted() const;''', '''	[[nodiscard]] bool is_restricted() const;\n	[[nodiscard]] bool is_ryndaRestricted() const;''')
 
   source = '\
 // WARNING! All changes made in this file will be lost!\n\
@@ -1546,7 +1546,7 @@ public:\n\
 ' + methods + '\n\
 ' + ('} // namespace ' + globalNamespace + '\n' if globalNamespace != '' else '')
 
-  # --- AyuGram hook
+  # --- TeleRynda hook
   rrr1 = re.compile(r'''bool MTPD(?P<class>.+?)::is_noforwards\(\) const {
 	return _flags\.v & Flag::f_noforwards;
 }''')
@@ -1557,13 +1557,13 @@ public:\n\
   source = rrr1.sub('''bool MTPD\g<class>::is_noforwards() const {
 	return false;
 }
-bool MTPD\g<class>::is_ayuNoforwards() const {
+bool MTPD\g<class>::is_ryndaNoforwards() const {
 	return _flags.v & Flag::f_noforwards;
 }''', source)
   source = rrr2.sub('''bool MTPD\g<class>::is_restricted() const {
 	return false;
 }
-bool MTPD\g<class>::is_ayuRestricted() const {
+bool MTPD\g<class>::is_ryndaRestricted() const {
 	return _flags.v & Flag::f_restricted;
 }''', source)
 
